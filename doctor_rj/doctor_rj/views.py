@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
-import json
-from django.shortcuts import render
+
 from rest_framework import viewsets, generics
-from rest_framework.views import APIView
 from doctor_rj.models import Establishment
 from doctor_rj.serializers import EstabelecimentoSerializer
-from django.http import HttpResponse
+from doctor_rj.serializers import TipoUnidadeSerializer
+from doctor_rj.models import UnitType
+
 
 class EstabelecimentoView(viewsets.ModelViewSet):
 
 	queryset = Establishment.objects.all()
 	serializer_class = EstabelecimentoSerializer
+
 
 class EstabelecimentoList(generics.ListAPIView):
 
@@ -18,6 +19,7 @@ class EstabelecimentoList(generics.ListAPIView):
 
 	def get_queryset(self):
 		return Establishment.objects.all()
+
 
 class EstabelecimentoDetail(generics.ListAPIView):
 
@@ -27,3 +29,13 @@ class EstabelecimentoDetail(generics.ListAPIView):
 
 		id = self.kwargs.get('pk')
 		return Establishment.objects.filter(id=id)
+
+
+class EstabelecimentoPorTipoList(generics.ListAPIView):
+
+	serializer_class = TipoUnidadeSerializer
+
+	def get_queryset(self):
+
+		return UnitType.objects.all()
+
