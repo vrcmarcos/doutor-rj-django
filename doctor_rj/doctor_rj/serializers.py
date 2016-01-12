@@ -7,25 +7,21 @@ from doctor_rj.models import Establishment
 class EstabelecimentoSerializer(serializers.Serializer):
 
 	nome = serializers.CharField(max_length=60, source='common_name')
-	razao_social = serializers.CharField(max_length=60, source='company_name')
-	cnes = serializers.CharField(max_length=7)
-	cnpj = serializers.CharField(max_length=14)
-	endereco = serializers.CharField(max_length=60, source='address')
-	numero = serializers.CharField(max_length=10, source='number')
-	complemento = serializers.CharField(max_length=60, source='add_address')
-	bairro = serializers.CharField(max_length=60, source='district')
-	cep = serializers.CharField(max_length=60)
 	telefone = serializers.CharField(max_length=60, source='phone')
-	email = serializers.CharField(max_length=60)
-	latitude = serializers.CharField(max_length=60)
-	longitude = serializers.CharField(max_length=60)
-	natureza_organizacao = serializers.SlugRelatedField(source='organization_nature', read_only=True, slug_field='nature')
-	esfera_administrativa = serializers.SlugRelatedField(source='administrative', read_only=True, slug_field='name')
-	atividade_de_ensino = serializers.SlugRelatedField(
-		source='teaching_activity', read_only=True, slug_field='activity_type'
-	)
-	tipo_da_unidade = serializers.SlugRelatedField(source='unit_type', read_only=True, slug_field='name')
+	coordenadas = serializers.SerializerMethodField()
+	esfera_administrativa = serializers.SerializerMethodField()
+	logradouro = serializers.SerializerMethodField()
 
+	def get_logradouro(self, obj):
+
+		return "%s, %s/%s - %s" % (obj.address, obj.number, obj.add_address, obj.district)
+
+	def get_coordenadas(self, obj):
+
+		return "%s,%s" % (obj.latitude[0:-2], obj.longitude[0:-2])
+
+	def get_esfera_administrativa(self, obj):
+		return True if str(obj.administrative.name) == str("PRIVADA") else False
 
 class TipoUnidadeSerializer(serializers.Serializer):
 
@@ -35,8 +31,14 @@ class TipoUnidadeSerializer(serializers.Serializer):
 	def get_estabelecimentos_list(self, obj):
 
 		estabelecimentos = Establishment.objects.filter(unit_type=obj)
-		data = list()
+		data = {
+			'latitudes': '',
+			'lista': list()
+		}
 		for estabelecimento in estabelecimentos:
 			est = EstabelecimentoSerializer(estabelecimento)
-			data.append(est.data)
+			data['lista'].append(est.data)
+			data['latitudes'] += '%s|' % est.data['coordenadas']
+
+		data['latitudes'] = data['latitudes'][0:-1]
 		return data
