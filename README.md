@@ -1,6 +1,6 @@
 #Doutor RJ Django
 
-A REST web service for Doutor RJ clients
+A REST web service for Doutor Rio clients
 
 ###Authors
 - Daniel Daim
