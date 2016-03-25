@@ -8,11 +8,8 @@ https://docs.djangoproject.com/en/1.8/howto/deployment/wsgi/
 """
 
 import os
-import sys
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(1, os.path.join(PROJECT_ROOT, "core"))
-sys.path.insert(2, os.path.join(PROJECT_ROOT, "doctor_rj"))
 
 from django.core.wsgi import get_wsgi_application
 

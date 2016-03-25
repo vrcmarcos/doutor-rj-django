@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from rest_framework import viewsets, generics
+
 from doctor_rj.models import Establishment
+from doctor_rj.models import UnitType
 from doctor_rj.serializers import EstabelecimentoSerializer
 from doctor_rj.serializers import TipoUnidadeSerializer
-from doctor_rj.models import UnitType
 
 
 class EstabelecimentoView(viewsets.ModelViewSet):
