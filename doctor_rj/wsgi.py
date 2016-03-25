@@ -11,7 +11,7 @@ import os
 import sys
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-print PROJECT_ROOT
+print "AAAAAAAAAAAAAAAAAAAAA %s " % PROJECT_ROOT
 sys.path.insert(0, os.path.join(PROJECT_ROOT, "doctor_rj"))
 sys.path.insert(1, os.path.join(PROJECT_ROOT, "doctor_rj/core"))
 sys.path.insert(2, os.path.join(PROJECT_ROOT, "doctor_rj/doctor_rj"))
