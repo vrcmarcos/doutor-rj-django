@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-from doctor_rj.models import Establishment
 from rest_framework import serializers
+
+from doctor_rj.models import Establishment
 
 
 class EstabelecimentoSerializer(serializers.Serializer):
